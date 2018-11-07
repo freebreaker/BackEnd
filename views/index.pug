@@ -1,0 +1,83 @@
+extends layout
+
+block content
+  
+  div(class="admin")
+    div(class="admin-form-login")
+      h1(class="admin-form-title")= title
+      div(class="layui-tab layui-tab-brief")
+        ul(class="layui-tab-title admin-tab")
+          li(class="layui-this") 用户登陆
+          li 合作单位
+        div(class="layui-tab-content")
+          div(class="layui-tab-item layui-show")
+            form(class="layui-form" action="/login" method='post')
+              div(class="layui-form-item")
+                label(class="layui-icon admin-form-icon layui-icon-username")
+                input(
+                    class="layui-input"
+                    type="text"
+                    name="username"
+                    placeholder="用户名"
+                )
+              div(class="layui-form-item")
+                label(class="layui-icon admin-form-icon layui-icon-password")
+                input(
+                    class="layui-input"
+                    type="password"
+                    name="password"
+                    placeholder="密码"
+                )
+              div(class="layui-form-item")
+                button(
+                    class="layui-btn layui-btn-fluid"
+                    lay-submit
+                ) 登 入
+              div(class="layui-form-footer")
+                p() Copyright © 2015 All Rights Reserved
+                p() 扬州恒安隆投资咨询有限公司
+          div(class="layui-tab-item")
+            form(class="layui-form")
+              div(class="layui-form-item")
+                label(class="layui-icon admin-form-icon layui-icon-username")
+                input(
+                    class="layui-input"
+                    type="text"
+                    name="username"
+                    placeholder="企业单位"
+                )
+              div(class="layui-form-item")
+                label(class="layui-icon admin-form-icon layui-icon-username")
+                input(
+                    class="layui-input"
+                    type="text"
+                    name="username"
+                    placeholder="用户名"
+                )
+              div(class="layui-form-item")
+                label(class="layui-icon admin-form-icon layui-icon-password")
+                input(
+                    class="layui-input"
+                    type="password"
+                    name="password"
+                    placeholder="密码"
+                )
+              div(class="layui-form-item")
+                button(
+                    class="layui-btn layui-btn-fluid"
+                    lay-submit
+                ) 登 入
+              div(class="layui-form-footer")
+                p() Copyright © 2015 All Rights Reserved
+                p() 扬州恒安隆投资咨询有限公司
+  script.
+    layui.use('element', function(){
+      var $ = layui.jquery
+      ,element = layui.element;
+    })
+
+
+        
+
+
+  

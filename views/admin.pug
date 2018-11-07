@@ -1,0 +1,25 @@
+
+extends layout
+
+
+block content
+  div(class="admin-layout layui-layout layui-layout-admin")
+    include admin_header.pug
+    include admin_side.pug
+    include admin_tabs.pug
+    include admin_body.pug
+  script.
+    layui.config({
+      base: '/js/' //静态资源所在路径
+    }).extend({
+      index: 'index' //主入口模块
+    }).use('index');
+
+
+
+
+
+        
+
+
+  

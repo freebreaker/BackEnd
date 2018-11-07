@@ -1,0 +1,109 @@
+extends ../layout
+
+block content
+
+    div(class="layui-fiuid")
+        div(class="layui-card")
+            div(class="layui-card-body")
+                table(id="layui-table-rolegroups" lay-filter="demo")
+
+    script(type="text/html" id="table-bar").
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    script.
+        layui.use('table', function(){
+            var table = layui.table;
+            //监听表格复选框选择
+            table.on('checkbox(demo)', function(obj){
+                console.log(obj)
+            });
+            //执行渲染
+            table.render({
+                elem: '#layui-table-rolegroups', //指定原始表格元素选择器（推荐id选择器）
+                url:"/demo/table/user/",
+                cols: [[
+                    {type:'checkbox'},
+                    {align:'center', toolbar: '#table-bar',title:'权限操作'},
+                    {align:'center', field:'UserName',title:'用户名'},
+                    {align:'center', field:'FullName',title:'姓名'},
+                    {align:'center', field:'PhoneNumber',title:'手机'},
+                    {align:'center', field:'IsDisable',title:'状态'},
+                    {align:'center', field:'UserName',title:'绑定用户'},
+                    {align:'center', field:'LastLoginTime',title:'最后登录时间'},
+                    {align:'center', field:'GroupName',title:'权限分组'},
+                    {align:'center', field:'RoleList',title:'权限',width:"20%"},
+                ]],
+                done:function(res, curr, count){
+
+                    var dataList = res.data
+
+                    $(".laytable-cell-1-IsDisable").each(function(){
+                        var $this = $(this);
+                        if($this.text() === "true"){
+                            $this.text("").append("<span class='layui-btn layui-btn-sm layui-btn-normal'>正 常</span>");
+                        }else if($this.text() === "false"){
+                            $this.text("").append("<span class='layui-btn layui-btn-sm layui-btn-danger'>已禁用</span>");
+                        }
+                    })
+
+                    $(".laytable-cell-1-GroupName").each(function(index){
+                        var $this = $(this);
+                        if(index<1) return;
+                        var RoleGroupObj = dataList[index-1]["RoleGroup"]
+                        if(RoleGroupObj!==null){
+                            $this.text(RoleGroupObj.Name)
+                        }else{
+                            $this.text("")
+                        }
+                    })
+
+                    $(".laytable-cell-1-RoleList").each(function(index){
+                        var $this = $(this);
+                        if(index<1) return;
+                        dataList[index-1]["RoleList"].forEach(function(value,index){
+                            $this.append(value+" ")
+                        })
+                    })
+                },
+                page: true
+            });
+
+            //监听工具条
+            table.on('tool(demo)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'detail'){
+                parent.layer.msg('ID：'+ data.id + ' 的查看操作');
+                } else if(obj.event === 'del'){
+                parent.layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                });
+                } else if(obj.event === 'edit'){
+                parent.layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                }
+            });
+            
+            var $ = layui.$, active = {
+                getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+                }
+                ,getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+                }
+                ,isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+                }
+            };
+            
+            $('.demoTable .layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+
