@@ -6,14 +6,26 @@ block content
         div(class="layui-card")
             div(class="layui-card-body")
                 table(id="layui-table-rolegroups" lay-filter="demo")
+                div(id="ex" style="display:none")
+                    form(class="layui-form" aciton="" lay-fileter="admin-user-edit" style="margin-top:20px;")
+                        div(class="layui-form-item")
+                            label(class="layui-form-label") 用户名
+                            div(class="layui-input-block")
+                                input(type="text" name="title" autocomplete="off" placeholder="请输入标题" class="layui-input")
+                        div(class="layui-form-item")
+                            div(class="layui-input-bock")
+                                button(class="layui-btn"  lay-submit="" lay-filter="demo1") 确认提交
+                                button( type="reset" class="layui-btn layui-btn-primary") 重新设置
+
 
     script(type="text/html" id="table-bar").
         <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     script.
-        layui.use('table', function(){
+        layui.use(['table','form'], function(){
             var table = layui.table;
+            var form = layui.form
             //监听表格复选框选择
             table.on('checkbox(demo)', function(obj){
                 console.log(obj)
@@ -23,7 +35,6 @@ block content
                 elem: '#layui-table-rolegroups', //指定原始表格元素选择器（推荐id选择器）
                 url:"/demo/table/user/",
                 cols: [[
-                    {type:'checkbox'},
                     {align:'center', toolbar: '#table-bar',title:'权限操作'},
                     {align:'center', field:'UserName',title:'用户名'},
                     {align:'center', field:'FullName',title:'姓名'},
@@ -32,7 +43,7 @@ block content
                     {align:'center', field:'UserName',title:'绑定用户'},
                     {align:'center', field:'LastLoginTime',title:'最后登录时间'},
                     {align:'center', field:'GroupName',title:'权限分组'},
-                    {align:'center', field:'RoleList',title:'权限',width:"20%"},
+                    {align:'center', field:'RoleList',title:'权限',width:"22%"},
                 ]],
                 done:function(res, curr, count){
 
@@ -80,38 +91,20 @@ block content
                     layer.close(index);
                 });
                 } else if(obj.event === 'edit'){
-                parent.layer.open({
+                    layer.open({
                     type: 1 //Page层类型
+                    ,offset: '100px'
                     ,area: ['500px', '300px']
                     ,title: '权限操作'
                     ,shade: 0.6 //遮罩透明度
                     ,maxmin: true //允许全屏最小化
                     ,anim: 1 //0-6的动画形式，-1不开启
-                    ,content: '<div style="padding:50px;">这是一个非常普通的页面层，传入了自定义的html</div>'
+                    ,content: $("#ex")
+                    ,success: function(layero, index){
+                        console.log(layero, index);
+                    }
                 })
                 }
-            });
-            
-            var $ = layui.$, active = {
-                getCheckData: function(){ //获取选中数据
-                var checkStatus = table.checkStatus('idTest')
-                ,data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
-                }
-                ,getCheckLength: function(){ //获取选中数目
-                var checkStatus = table.checkStatus('idTest')
-                ,data = checkStatus.data;
-                layer.msg('选中了：'+ data.length + ' 个');
-                }
-                ,isAll: function(){ //验证是否全选
-                var checkStatus = table.checkStatus('idTest');
-                layer.msg(checkStatus.isAll ? '全选': '未全选')
-                }
-            };
-            
-            $('.demoTable .layui-btn').on('click', function(){
-                var type = $(this).data('type');
-                active[type] ? active[type].call(this) : '';
             });
         });
 

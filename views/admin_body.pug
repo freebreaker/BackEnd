@@ -1,3 +1,12 @@
 div(class="layui-body" id="LAY_app_body")
     div(class="layadmin-tabsbody-item layui-show")
         iframe(src="/users/RoleGroups", frameborder="0" class="layadmin-iframe")
+            form(class="layui-form" id="admin-user-edit" aciton="" lay-fileter="admin-user-edit" style="display:none;margin-top:20px;")
+                div(class="layui-form-item")
+                    label(class="layui-form-label") 用户名
+                    div(class="layui-input-block")
+                        input(type="text" name="title" autocomplete="off" placeholder="请输入标题" class="layui-input")
+                div(class="layui-form-item")
+                    div(class="layui-input-bock")
+                        button(class="layui-btn"  lay-submit="" lay-filter="demo1")
+                        button( type="reset" class="layui-btn layui-btn-primary")
