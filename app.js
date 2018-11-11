@@ -10,7 +10,7 @@ const session = require('koa-session')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const demo = require('./routes/demo')      // 用于显示demo json 数据的api
-
+const api = require('./routes/api')
 // error handler
 onerror(app)
 
@@ -44,6 +44,7 @@ app.use(async (ctx, next) => {
 })
 
 // routes
+app.use(api.routes(), api.allowedMethods())
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(demo.routes(), demo.allowedMethods())

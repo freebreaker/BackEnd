@@ -24,6 +24,7 @@
     "pug": "^2.0.0-rc.1"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "nodemon": "^1.8.1"
   },
   "proxy": "http://localhost:6520"
